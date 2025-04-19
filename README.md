@@ -43,8 +43,10 @@ The following code defines a custom progress bar handler function and assigns it
 #include "progressbar.hpp"
 
 // sample progressbar handler logic, called on each marker at runtime.
-void __stdcall ipcProgressbarHandler(progressbar::step_value_t currentStep, progressbar::step_value_t maxStep)
-{
+void __stdcall ipcProgressbarHandler(
+    progressbar::step_value_t currentStep,
+    progressbar::step_value_t maxStep
+) {
     PROTECT_SOFT
 
     ipc::cl_send_message(

@@ -1,9 +1,10 @@
 # Progressbar
----
+
 ![[smooth-loader.gif]]
 A C++ Win32 progress bar system that uses strategically placed markers in the source code. After compilation, a Python script disassembles the binary, detects marker positions, and assigns progress values, enabling accurate UI progress tracking.
+
 ## Prerequisites
----
+
 1. Architecture x86 - not tested on x64
 2. Compiler MSVC C++
 3. Python 3+
@@ -11,7 +12,7 @@ A C++ Win32 progress bar system that uses strategically placed markers in the so
 	1. `capstone`
 	2. `pefile`
 ## Installation
----
+
 1. Add `progressbar.hpp` and `progressbar.cpp` to your C++ project.
 2. Place `progressbar.py` within your project directory.
 3. Enable map file generation for your target binary.
@@ -19,19 +20,22 @@ A C++ Win32 progress bar system that uses strategically placed markers in the so
 ```sh
 py.exe "$(ProjectDir)progressbar.py" "$(TargetDir)$(TargetName).exe" "$(TargetDir)$(TargetName).map" "<start_fn>" "<marker_fn>" "<allowed_fn1>|<allowed_fn2>..."
 ```
+
 ## Script parameters
----
+
 - `<start_fn>`: A fragment of the mangled symbol name for the root function where the progress bar process is initialized. This serves as the starting point for the script to begin its search.
 - `<marker_fn>`: A fragment of the mangled symbol name for the progress bar marker function. If the progress bar code is unmodified, use `?Marker@progressbar@@` as the fragment.
 - `<allowed_fn*>`: A list of fragments of mangled symbol names for functions, separated by the pipe (`|`) character, that the script is allowed to search and scan recursively. The patching script begins at `<start_fn>` and searches for progress bar markers. If it encounters a call to any function whose fragment matches the allowed list, it will enter that function and continue scanning. This process is repeated recursively for functions in the allowed list, up to a depth of 3 levels.
+
 ## Usage
----
+
 1. Include `progressbar.hpp`.
 2. Register progressbar handler using `progress::SetProgressbarHandler` function.
 3. Use `PROGRESSBAR_MARKER` macro between code blocks of your choice.
 4. Build binary and make the post-compile script do the work.
+
 ## Example code
----
+
 The following code defines a custom progress bar handler function and assigns it immediately after the function prologue using `progressbar::SetProgressbarHandler` function. Each major task in the program is marked using the `PROGRESSBAR_MARKER` macro.
 
 ```c++
@@ -82,7 +86,7 @@ int main()
 ```
 
 ## How it works
----
+
 Once compiled, the binary includes code that requires post-processing and patching to activate the progress bar mechanism:
 ![[Pasted image 20250418215707.png]]
 As you can see, the `progressbar::Marker` function is invoked with placeholder parameters `0xDEADBEEF` and `0xBABEFACE`.

@@ -16,7 +16,7 @@ A C++ Win32 progress bar system that uses strategically placed markers in the so
 
 1. Add `progressbar.hpp` and `progressbar.cpp` to your C++ project.
 2. Place `progressbar.py` within your project directory.
-3. Enable map file generation for your target binary.
+3. Enable `.map` file generation for your target binary.
 4. Install post build event script.
 ```sh
 py.exe "$(ProjectDir)progressbar.py" "$(TargetDir)$(TargetName).exe" "$(TargetDir)$(TargetName).map" "<start_fn>" "<marker_fn>" "<allowed_fn1>|<allowed_fn2>..."
@@ -27,6 +27,8 @@ py.exe "$(ProjectDir)progressbar.py" "$(TargetDir)$(TargetName).exe" "$(TargetDi
 - `<start_fn>`: A fragment of the mangled symbol name for the root function where the progress bar process is initialized. This serves as the starting point for the script to begin its search.
 - `<marker_fn>`: A fragment of the mangled symbol name for the progress bar marker function. If the progress bar code is unmodified, use `?Marker@progressbar@@` as the fragment.
 - `<allowed_fn*>`: A list of fragments of mangled symbol names for functions, separated by the pipe (`|`) character, that the script is allowed to search and scan recursively. The patching script begins at `<start_fn>` and searches for progress bar markers. If it encounters a call to any function whose fragment matches the allowed list, it will enter that function and continue scanning. This process is repeated recursively for functions in the allowed list, up to a depth of 3 levels.
+
+**To find the mangled symbol name of a function of interest, search through the generated .map file.**
 
 ## Usage
 

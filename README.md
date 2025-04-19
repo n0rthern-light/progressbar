@@ -57,16 +57,16 @@ void __stdcall ipcProgressbarHandler(progressbar::step_value_t currentStep, prog
 void heavyTask()
 {
 	heavyTask_innerTask();
-	PROGRESSBAR_MARKER // leads to ipcProgressbarHandler(2, 6) call
+	PROGRESSBAR_MARKER // leads to ipcProgressbarHandler(1, 5) call
 	heavyTask_anotherInnerTask();
 }
 
 void anotherHeavyTask()
 {
 	heavyTask_innerTask();
-	PROGRESSBAR_MARKER // leads to ipcProgressbarHandler(4, 6) call
+	PROGRESSBAR_MARKER // leads to ipcProgressbarHandler(3, 5) call
 	heavyTask_anotherInnerTask();
-	PROGRESSBAR_MARKER // leads to ipcProgressbarHandler(5, 6) call
+	PROGRESSBAR_MARKER // leads to ipcProgressbarHandler(4, 5) call
 	heavyTask_anotherAnotherInnerTask();
 }
 
@@ -76,11 +76,10 @@ int main()
 	progressbar::SetProgressbarHandler(ipcProgressbarHandler);
 
 	// do some heavy-lifting and mark progress
-	PROGRESSBAR_MARKER // leads to ipcProgressbarHandler(1, 6) call
 	heavyTask();
-	PROGRESSBAR_MARKER // leads to ipcProgressbarHandler(3, 6) call
+	PROGRESSBAR_MARKER // leads to ipcProgressbarHandler(2, 5) call
 	anotherHeavyTask();
-	PROGRESSBAR_MARKER // leads to ipcProgressbarHandler(6, 6) call
+	PROGRESSBAR_MARKER // leads to ipcProgressbarHandler(5, 5) call
 
 	return 0;
 }

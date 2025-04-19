@@ -47,8 +47,6 @@ void __stdcall ipcProgressbarHandler(
     progressbar::step_value_t currentStep,
     progressbar::step_value_t maxStep
 ) {
-    PROTECT_SOFT
-
     ipc::cl_send_message(
         g_connection,
         messages::TYPE_PROGRESS,

@@ -1,16 +1,21 @@
 # Progressbar
 
 ![smooth-loader](https://github.com/user-attachments/assets/1c1c99ab-147d-4f74-a5db-2cbd3a3a163b)
+
 A C++ Win32 progress bar system that uses strategically placed markers in the source code. After compilation, a Python script disassembles the binary, detects marker positions, and assigns progress values, enabling accurate UI progress tracking.
 
 ## How it works
 
 Once compiled, the binary includes code that requires post-processing and patching to activate the progress bar mechanism:
+
 ![ida-before](https://github.com/user-attachments/assets/4b7cccb2-620e-4a76-89b8-13ee74facbe2)
+
 As you can see, the `progressbar::Marker` function is invoked with placeholder parameters `0xDEADBEEF` and `0xBABEFACE`.
 
 After patching with `progressbar.py`. The decompiled binary code looks as follows:
+
 ![ida-after](https://github.com/user-attachments/assets/8b6dd7da-fc89-4fa2-8a4d-8063d0109000)
+
 The respective values of `currentStep` and `maxStep` are assigned to the parameters, replacing the previous values of `0xDEADBEEF` and `0xBABEFACE`. Since both `raspberry::init` and `strawberry::init` invoke markers within their bodies, the `currentStep` value does not increase linearly. The program contains a total of 120 markers, which also sets the value of `maxStep`.
 
 Together, this *contributes* to a highly accurate progress bar.

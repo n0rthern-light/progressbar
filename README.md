@@ -1,7 +1,5 @@
 # Progressbar
 
-![smooth-loader](https://github.com/user-attachments/assets/1c1c99ab-147d-4f74-a5db-2cbd3a3a163b)
-
 A C++ Win32 progress bar system that uses strategically placed markers in the source code. After compilation, a Python script disassembles the binary, detects marker positions, and assigns progress values, enabling accurate progress tracking for building UI on top of it.
 
 ## Prerequisites
